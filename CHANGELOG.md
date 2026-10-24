@@ -25,6 +25,7 @@
 * feature/pr-follow-through: agents open a pull request only when the request asks for one, with no extra confirmation, then watch its checks, answer reviews with fixup commits that are folded in once review is over, and clean up once it is merged.
 * feature/release-tags: the template's version lives in VERSION, and CI tags each merge to main as v<VERSION> once every check passes, so copier renders releases rather than whatever is on main; CI runs on main are no longer cancelled by the next push; and agents open a pull request at the end of any single clear request, without asking.
 * chore/add-make: every cage has make.
+* chore/version-3-1-0: VERSION moves to 3.1.0, releasing the base image with make.
 
 ## removed
 
