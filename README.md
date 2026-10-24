@@ -98,7 +98,7 @@ needs goes in that folder too.
 ## What every cage has
 
 Every cage builds on `agent-base`, a Debian trixie-slim image with git, gh,
-Claude Code, vim, ripgrep, uv, Python 3.14 and copier, running with
+Claude Code, vim, make, ripgrep, uv, Python 3.14 and copier, running with
 `LANG=C.UTF-8`. Everything but Claude Code comes from Debian's own archive.
 Claude Code has no Debian package, so it comes from Anthropic's apt repository,
 and the build stops if that repository's signing key does not match its pinned
