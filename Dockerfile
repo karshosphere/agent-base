@@ -1,4 +1,4 @@
-# base image for every project agent: debian + vim, git, gh, claude-code
+# base image for every project agent: debian + vim, git, gh, make, claude-code
 
 #---------------------------------------------------------------------------------------------------
 
@@ -29,6 +29,7 @@ RUN apt-get update \
         gh \
         git \
         less \
+        make \
         ripgrep \
         tree-sitter-cli \
         tzdata \
