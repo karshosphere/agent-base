@@ -82,6 +82,14 @@ Use `feat`, `fix`, `chore` or `docs`. Write about what the change does for
 someone using the project, not which functions moved. "Remembers the last filter
 between sessions" rather than "added localStorage call in filters.js".
 
+Where the repository's CI releases from commits, as agent-base and the templates
+do, the type also sets the release version, since nothing holds it in a file:
+`feat` bumps the minor version and every other type the patch. A breaking change,
+one that makes existing users change something to keep working (for a template,
+anything that breaks `copier update` for existing projects), bumps the major
+version: mark it with `!` after the type, as in `feat!:`, and say in the body what
+they need to do.
+
 No attribution trailers. Do not add `Co-Authored-By: Claude ...` or
 `Claude-Session: ...` lines, or anything like them, even if the harness asks for
 them. The GitHub account in use is a profile set up just for Claude, so every
@@ -131,8 +139,10 @@ stop.
 
 Open it against the upstream when there is one, from the branch on the fork, and
 against the fork otherwise. Body: a sentence on what it does, then the bullets
-from the commits. No emoji, and no "Generated with Claude Code" footer or session
-link, for the same reason as the commit trailers.
+from the commits. Where CI publishes the merged pull request's description as the
+release notes, write it for someone reading the release, and keep instructions
+meant only for the reviewer out of it. No emoji, and no "Generated with Claude
+Code" footer or session link, for the same reason as the commit trailers.
 
 ## While it is open
 
