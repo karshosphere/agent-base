@@ -8,11 +8,9 @@ request, without asking first; an open-ended one, such as a discussion or a plan
 stops at a pushed branch. It then sees the pull request through: it watches the
 checks after every push, folds each fix asked for in review straight into the
 commit it belongs to so the history stays clean, and removes its branch and
-worktree once the pull request is merged.
-
-Each branch adds one line to the repository's `CHANGELOG.md`, labelled with the
-version it releases from `VERSION`, or with the branch name in a repository that
-has no `VERSION` file.
+worktree once the pull request is merged. There is no changelog to keep: the
+commit history, in the `feat:`/`fix:`/`chore:`/`docs:` form the workflow asks for,
+is the record of what changed.
 
 ## Setup
 
@@ -157,20 +155,28 @@ Each container is limited to 8 GB of memory and 1024 processes.
 ## Template changes
 
 Projects are rendered from `gh:karshosphere/agent-base`, never from a local copy, so
-only pushed changes reach a project. Copier renders the newest release tag, not
-the tip of `main`, so a merged change reaches projects only once it is released.
+only pushed changes reach a project. Copier renders the newest release tag, and
+CI tags every merge to `main` that passes its checks, so a merged change reaches
+projects as soon as its release is tagged.
 
 ## Releases
 
-The template's version is in `VERSION`, as `MAJOR.MINOR.PATCH`. To release a
-change, bump it in the same pull request. Once every CI check passes on the
-merge to `main`, the `tag` job tags that commit as `v<VERSION>`, and the next
-`devenv init` or `devenv update` uses it.
+Every merge to `main` is released. Once every CI check passes, the `tag` job
+tags the merged commit as the next `vMAJOR.MINOR.PATCH`, continuing from the
+latest release, and the next `devenv init` or `devenv update` uses it. Nothing
+is bumped by hand; the version comes from the commits since the last release:
 
-A merge that leaves `VERSION` unchanged releases nothing. A `VERSION` older than
-the latest release fails the job, so a release can never be replaced by an
-older one. Tags that are not `vMAJOR.MINOR.PATCH`, such as the old `Version1`,
-are ignored by both the job and copier.
+```
+feat!: …  or a BREAKING CHANGE: footer    major   v3.3.0 -> v4.0.0
+feat: …                                   minor   v3.3.0 -> v3.4.0
+anything else (fix, chore, docs, …)       patch   v3.3.0 -> v3.3.1
+```
+
+The highest bump among those commits wins, so a merge carrying one `feat:` among
+several fixes is a minor release. Releases run one at a time, so two merges in
+quick succession get consecutive versions rather than the same one. Tags that are
+not `vMAJOR.MINOR.PATCH`, such as the old `Version1`, are ignored by both the job
+and copier.
 
 The `tag` job is the only part of CI that can write to the repository. It
 creates the tag through GitHub's API with the workflow's own token, so no write
@@ -217,8 +223,10 @@ repository's secrets.
 Every version this repository depends on is pinned: the Debian base image and uv
 by digest, GitHub Actions by commit, and Python, copier and other tools by exact
 version. Renovate keeps those pins current. It runs from
-`.github/workflows/renovate.yml` every Sunday morning and opens one pull request
-per update, following `renovate.json`.
+`.github/workflows/renovate.yml` early on Sunday morning and, following
+`renovate.json`, puts every update into **one** pull request, opened or updated
+only before 6am on Sunday, so there is at most one Renovate pull request a week.
+Its commits are `chore:` updates, so merging it is a patch release.
 Releases younger than seven days are held back, and nothing is merged
 automatically. Its Dependency Dashboard issue lists what is waiting.
 
@@ -245,6 +253,10 @@ Renovate needs a token, set up once in `karshosphere/agent-base`:
 
 The workflow's own token cannot be used, as pull requests opened with it do not
 start CI.
+
+Run only one Renovate. Mend's hosted Renovate app follows the same
+`renovate.json` but on its own timetable, so if it is installed for
+`karshosphere`, remove this repository from it, or both will open pull requests.
 
 To try it, run the renovate workflow from the Actions tab with a dry run of
 `full`. The log lists every dependency found and the updates it would open.

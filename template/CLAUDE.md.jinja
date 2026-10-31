@@ -89,27 +89,9 @@ commit it makes is already a Claude commit.
 
 ## Finishing a branch
 
-The last commit on the branch updates the README and `CHANGELOG.md` together,
-as `docs: readme and changelog for <the branch's subject>`.
-
-`CHANGELOG.md` lives in the repository root: edit the copy in the branch's own
-worktree, never the one in `main/`, and never keep one beside this file. It gets
-exactly one bullet per branch, under the heading that fits, labelled with the
-version the branch releases: the one in the repository's `VERSION` file after this
-branch's bump. A repository with no `VERSION` file has no version to give, so its
-bullets keep the branch name instead. Create it if it is missing:
-
-```markdown
-# Changelog
-
-## added/modified:
-
-* 1.4.0: theme toggle that remembers your choice between sessions.
-
-## removed
-
-* 1.3.0: jQuery, replaced with the equivalent plain DOM calls.
-```
+If the branch changes anything the README describes, its last commit updates the
+README, as `docs: readme for <the branch's subject>`. There is no changelog to
+keep; the commit history is the record of what changed.
 
 Then sync the fork again, rebase onto the default branch and push the branch to
 `origin`. Nothing is ever merged into the fork's default branch; it only mirrors
@@ -122,7 +104,7 @@ Every push that rewrites the branch uses `--force-with-lease`, never `--force`.
 ## Pull requests
 
 Open one at the end of the work, without asking, when the request is a single
-clear instruction, such as "add a VERSION file and tag releases from it", or when
+clear instruction, such as "add make to the base image", or when
 it says to open one. That is the go-ahead; no separate confirmation is needed.
 
 When the request is open-ended, such as a discussion, a question, a plan to

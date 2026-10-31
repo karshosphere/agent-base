@@ -4,10 +4,12 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests",
     "docker:pinDigests",
-    ":semanticCommitScopeDisabled"
+    ":semanticCommitScopeDisabled",
+    "group:all"
   ],
   "timezone": "Australia/Melbourne",
   "schedule": ["before 6am on sunday"],
+  "updateNotScheduled": false,
   "minimumReleaseAge": "7 days",
   "internalChecksFilter": "strict",
   "dependencyDashboard": true,
