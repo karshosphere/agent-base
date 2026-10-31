@@ -16,7 +16,7 @@ concurrency:
 
 env:
   # renovate: datasource=github-releases depName=astral-sh/uv
-  UV_VERSION: 0.13.3
+  UV_VERSION: 0.13.5
   # renovate: datasource=pypi depName=copier
   COPIER_VERSION: 9.19.1
 
