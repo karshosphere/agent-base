@@ -1,9 +1,9 @@
 name: renovate
 
 on:
-  # saturday 18:00 utc is sunday morning in melbourne, inside the schedule in renovate.json
+  # saturday 15:00 utc is 1-2am sunday in melbourne, leaving hours for github's delays before the 6am cut-off
   schedule:
-    - cron: "0 18 * * 6"
+    - cron: "0 15 * * 6"
   workflow_dispatch:
     inputs:
       dryRun:
@@ -34,5 +34,7 @@ jobs:
           RENOVATE_REPOSITORIES: karshosphere/agent-base
           RENOVATE_ONBOARDING: "false"
           RENOVATE_REQUIRE_CONFIG: required
+          # the only command renovate.json may run in a renovate branch; set here so the repository can't widen it
+          RENOVATE_ALLOWED_COMMANDS: '["^bash \\.github/bump-patch-version\\.sh$"]'
           # renovate skips an empty value, which is what a scheduled run or "off" gives it
           RENOVATE_DRY_RUN: ${{ inputs.dryRun != 'off' && inputs.dryRun || '' }}

@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - run: shellcheck --version && shellcheck devenv.sh .github/tag-release.sh
+      - run: shellcheck --version && shellcheck devenv.sh .github/tag-release.sh .github/bump-patch-version.sh
 
   hadolint:
     runs-on: ubuntu-26.04
