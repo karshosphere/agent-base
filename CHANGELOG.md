@@ -27,6 +27,7 @@
 * chore/add-make: every cage has make.
 * chore/version-3-1-0: VERSION moves to 3.1.0, releasing the base image with make.
 * 3.2.0: changelog entries are labelled with the version they release, from VERSION, rather than the branch name; repositories without a VERSION file keep the branch name.
+* 3.3.1: renovate opens a single grouped pull request a week, before 6am on sunday, and it bumps the patch version so merging it releases.
 
 ## removed
 

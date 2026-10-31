@@ -217,10 +217,16 @@ repository's secrets.
 Every version this repository depends on is pinned: the Debian base image and uv
 by digest, GitHub Actions by commit, and Python, copier and other tools by exact
 version. Renovate keeps those pins current. It runs from
-`.github/workflows/renovate.yml` every Sunday morning and opens one pull request
-per update, following `renovate.json`.
+`.github/workflows/renovate.yml` early on Sunday morning and, following
+`renovate.json`, puts every update into **one** pull request, opened or updated
+only before 6am on Sunday, so there is at most one Renovate pull request a week.
 Releases younger than seven days are held back, and nothing is merged
 automatically. Its Dependency Dashboard issue lists what is waiting.
+
+That pull request also bumps the patch part of `VERSION` (3.3.1 becomes 3.3.2),
+with `.github/bump-patch-version.sh`, so merging it releases a new version. It is
+the only command Renovate may run: the workflow allows exactly that one, so a
+change to `renovate.json` cannot make Renovate run anything else.
 
 A version Renovate would not otherwise find is marked with a comment on the line
 above it:
@@ -245,6 +251,11 @@ Renovate needs a token, set up once in `karshosphere/agent-base`:
 
 The workflow's own token cannot be used, as pull requests opened with it do not
 start CI.
+
+Use only this self-hosted Renovate. Mend's hosted Renovate app follows the same
+`renovate.json`, but it runs on its own timetable and cannot run the `VERSION`
+bump, so if it is installed for `karshosphere`, remove the repository from it,
+or both will open pull requests.
 
 To try it, run the renovate workflow from the Actions tab with a dry run of
 `full`. The log lists every dependency found and the updates it would open.
