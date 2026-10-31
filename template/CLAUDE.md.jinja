@@ -33,6 +33,25 @@ Host and container paths are identical, which is what keeps worktrees valid from
 both sides. Do not move the checkout. `$PROJECT_ROOT` holds that path inside the
 container.
 
+## Changes to the base structure
+
+This file, the `.gitignore` beside it, the layout above and the container around
+it all come from the agent-base template, and `devenv update` rewrites them. Don't
+change them in this project: a local edit is lost, or turns into conflict markers,
+on the next update. When something about the base structure should change, open
+an issue on `karshosphere/agent-base` instead:
+
+* a title that says what should change
+* why, from what you ran into in this project
+* the change you propose, as a diff where you can
+* signed at the end with your name, as your soul gives it{% if character %}
+  ({{ character }}){% endif %}
+
+Look for an open issue on the same thing first, and add to it rather than opening
+a second one. Opening the issue needs no confirmation; tell the user you did, with
+its link. The shard's soul, preferences and Dockerfile belong to the user and this
+project, not the template, so they are changed here as usual.
+
 ## Remotes
 
 `origin` is {{ fork_slug }}, your fork and the only place you can push. If it is
