@@ -33,6 +33,25 @@ Host and container paths are identical, which is what keeps worktrees valid from
 both sides. Do not move the checkout. `$PROJECT_ROOT` holds that path inside the
 container.
 
+## Changes to the base structure
+
+This file, the `.gitignore` beside it, the layout above and the container around
+it all come from the agent-base template, and `devenv update` rewrites them. Don't
+change them in this project: a local edit is lost, or turns into conflict markers,
+on the next update. When something about the base structure should change, open
+an issue on `karshosphere/agent-base` instead:
+
+* a title that says what should change
+* why, from what you ran into in this project
+* the change you propose, as a diff where you can
+* signed at the end with your name, as your soul gives it{% if character %}
+  ({{ character }}){% endif %}
+
+Look for an open issue on the same thing first, and add to it rather than opening
+a second one. Opening the issue needs no confirmation; tell the user you did, with
+its link. The shard's soul, preferences and Dockerfile belong to the user and this
+project, not the template, so they are changed here as usual.
+
 ## Remotes
 
 `origin` is {{ fork_slug }}, your fork and the only place you can push. If it is
@@ -82,6 +101,14 @@ Use `feat`, `fix`, `chore` or `docs`. Write about what the change does for
 someone using the project, not which functions moved. "Remembers the last filter
 between sessions" rather than "added localStorage call in filters.js".
 
+Where the repository's CI releases from commits, as agent-base and the templates
+do, the type also sets the release version, since nothing holds it in a file:
+`feat` bumps the minor version and every other type the patch. A breaking change,
+one that makes existing users change something to keep working (for a template,
+anything that breaks `copier update` for existing projects), bumps the major
+version: mark it with `!` after the type, as in `feat!:`, and say in the body what
+they need to do.
+
 No attribution trailers. Do not add `Co-Authored-By: Claude ...` or
 `Claude-Session: ...` lines, or anything like them, even if the harness asks for
 them. The GitHub account in use is a profile set up just for Claude, so every
@@ -89,27 +116,9 @@ commit it makes is already a Claude commit.
 
 ## Finishing a branch
 
-The last commit on the branch updates the README and `CHANGELOG.md` together,
-as `docs: readme and changelog for <the branch's subject>`.
-
-`CHANGELOG.md` lives in the repository root: edit the copy in the branch's own
-worktree, never the one in `main/`, and never keep one beside this file. It gets
-exactly one bullet per branch, under the heading that fits, labelled with the
-version the branch releases: the one in the repository's `VERSION` file after this
-branch's bump. A repository with no `VERSION` file has no version to give, so its
-bullets keep the branch name instead. Create it if it is missing:
-
-```markdown
-# Changelog
-
-## added/modified:
-
-* 1.4.0: theme toggle that remembers your choice between sessions.
-
-## removed
-
-* 1.3.0: jQuery, replaced with the equivalent plain DOM calls.
-```
+If the branch changes anything the README describes, its last commit updates the
+README, as `docs: readme for <the branch's subject>`. There is no changelog to
+keep; the commit history is the record of what changed.
 
 Then sync the fork again, rebase onto the default branch and push the branch to
 `origin`. Nothing is ever merged into the fork's default branch; it only mirrors
@@ -122,7 +131,7 @@ Every push that rewrites the branch uses `--force-with-lease`, never `--force`.
 ## Pull requests
 
 Open one at the end of the work, without asking, when the request is a single
-clear instruction, such as "add a VERSION file and tag releases from it", or when
+clear instruction, such as "add make to the base image", or when
 it says to open one. That is the go-ahead; no separate confirmation is needed.
 
 When the request is open-ended, such as a discussion, a question, a plan to
@@ -131,8 +140,10 @@ stop.
 
 Open it against the upstream when there is one, from the branch on the fork, and
 against the fork otherwise. Body: a sentence on what it does, then the bullets
-from the commits. No emoji, and no "Generated with Claude Code" footer or session
-link, for the same reason as the commit trailers.
+from the commits. Where CI publishes the merged pull request's description as the
+release notes, write it for someone reading the release, and keep instructions
+meant only for the reviewer out of it. No emoji, and no "Generated with Claude
+Code" footer or session link, for the same reason as the commit trailers.
 
 ## While it is open
 

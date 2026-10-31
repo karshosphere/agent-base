@@ -1,9 +1,9 @@
 name: renovate
 
 on:
-  # saturday 18:00 utc is sunday morning in melbourne, inside the schedule in renovate.json
+  # saturday 15:00 utc is 1-2am sunday in melbourne, leaving hours for github's delays before the 6am cut-off
   schedule:
-    - cron: "0 18 * * 6"
+    - cron: "0 15 * * 6"
   workflow_dispatch:
     inputs:
       dryRun:

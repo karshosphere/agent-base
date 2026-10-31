@@ -95,6 +95,10 @@ jobs:
     needs: [shellcheck, hadolint, build, render]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-26.04
+    # one release at a time, so two quick merges never compute the same next version
+    concurrency:
+      group: release
+      cancel-in-progress: false
     permissions:
       # creating the tag is the only write this workflow makes
       contents: write
@@ -102,7 +106,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: tag the commit as v<VERSION>
+          # the whole history and every tag, to find the latest release and the commits since it
+          fetch-depth: 0
+          fetch-tags: true
+      - name: release the commit as the next version
         env:
           GH_TOKEN: ${{ github.token }}
         run: bash .github/tag-release.sh
