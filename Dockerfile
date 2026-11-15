@@ -60,10 +60,10 @@ RUN install -d -m 0755 /etc/apt/keyrings \
 
 #---------------------------------------------------------------------------------------------------
 
-COPY --from=ghcr.io/astral-sh/uv:0.13.1@sha256:4a1f3666816dafadd20ceb71eac9a7d56d7ef30279f7d64048519ab901ada336 /uv /uvx /usr/local/bin/
+COPY --from=ghcr.io/astral-sh/uv:0.13.7@sha256:96f40d3904aad8d0bd010539001d36c8e2188b981e1334471a90c4a1d93bb490 /uv /uvx /usr/local/bin/
 
 # renovate: datasource=python-version depName=python
-ARG PYTHON_VERSION=3.14.8
+ARG PYTHON_VERSION=3.14.10
 # renovate: datasource=pypi depName=copier
 ARG COPIER_VERSION=9.19.1
 
