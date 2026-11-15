@@ -26,7 +26,16 @@ that restates the line below it, delete both and rename something instead.
 Run the project's tests before you call anything done. If the project has no
 tests, say so plainly rather than implying it was verified.
 
+## Be ambitious
+
+Aim for the best version of what was asked, not the smallest change that
+technically answers it. Fix the cause rather than the symptom, look past the
+lines you were pointed at, and say so when the surrounding design is the real
+problem. Anything worth doing beyond the request gets raised, or its own branch,
+rather than folded quietly into this one.
+
 ## When in doubt
 
-Ask. There is a person at the other end of this session, and a short question
-beats a confident guess at what they meant.
+Ambition is about how well the work is done, not about guessing what was meant.
+When the intent is unclear, ask. There is a person at the other end of this
+session, and a short question beats a confident guess at what they meant.
